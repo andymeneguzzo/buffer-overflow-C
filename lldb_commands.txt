@@ -1,0 +1,14 @@
+breakpoint set --name vuln
+breakpoint set --file "/Users/andy.drumbeat/Desktop/_software_learning/Secure Coding in C/Buffer Overflow & Stack Corruption/vuln.c" --line 31
+process launch --stdin "/Users/andy.drumbeat/Desktop/_software_learning/Secure Coding in C/Buffer Overflow & Stack Corruption/payload_overflow.txt"
+frame info
+frame variable p.buff p.target
+expr (void*)p.buff
+expr (void*)&p.target
+expr (long)((char*)&p.target - (char*)p.buff)
+expr/x (long)((char*)&p.target - (char*)p.buff)
+expr/x p.target
+memory read --format byte --size 1 --count 64 (void*)p.buff
+memory read --format hex --size 4 --count 8 (void*)p.buff
+continue
+quit
