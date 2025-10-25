@@ -1,5 +1,4 @@
 /**
- * 
  * Motivation: show stack overflow that overwrites an adjacent stack variable
  */
 
