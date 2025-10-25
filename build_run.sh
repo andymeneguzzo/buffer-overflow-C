@@ -1,4 +1,4 @@
-#!/usr/bin env bash
+#!/usr/bin/env bash
 
 set -u # do not set -e because we want to catch non-zero exits
 
@@ -62,13 +62,15 @@ run_with_payload() {
     pid=$!
 
     # wait up to 10s
-    secs_wait=0
+    # secs_wait=0
+    max_ticks=50
+    ticks=0
     while kill -0 "$pid" 2>/dev/null; do
         sleep 0.2
-        secs_wait=$((secs_wait + 0.2))
+        ticks=$((ticks + 1))
 
-        if (( $(echo "$secs_wait > 10" | bc -l) )); then
-            echo "[-] Process $pid still running after 10s; killing it."
+        if (( ticks > max_ticks )); then
+            echo "[-] Process $pid still running after $((max_ticks * 2 / 10))s; killing it."
             kill -9 "$pid" 2>/dev/null || true
             break
         fi

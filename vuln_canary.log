@@ -1,0 +1,8 @@
+Starting vuln
+--- inside vuln() ---
+address of buff   : 0x16d602b04
+address of target : 0x16d602b14
+initial target    : 0x00abcd00
+Enter a string (long input will overflow buff): You entered: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+after input, target : 0x41414141
+-----------------------

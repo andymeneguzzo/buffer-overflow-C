@@ -1,32 +1,37 @@
-=================================================================
-==27152==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x00016aea2a94 at pc 0x0001056baaa0 bp 0x00016aea2a00 sp 0x00016aea2180
-WRITE of size 129 at 0x00016aea2a94 thread T0
-    #0 0x0001056baa9c in scanf_common(void*, int, bool, char const*, char*)+0x7c0 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x1aa9c)
-    #1 0x0001056baf50 in scanf+0x6c (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x1af50)
-    #2 0x000104f5c938 in vuln vuln.c:25
-    #3 0x000104f5ca24 in main vuln.c:37
+Starting vuln
+--- inside vuln() ---
+address of buff   : 0x16b242a60
+address of target : 0x16b242a70
+initial target    : 0x00abcd00
+Enter a string (long input will overflow buff): =================================================================
+==44390==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x00016b242a74 at pc 0x00010539aaa0 bp 0x00016b2429e0 sp 0x00016b242160
+WRITE of size 129 at 0x00016b242a74 thread T0
+    #0 0x00010539aa9c in scanf_common(void*, int, bool, char const*, char*)+0x7c0 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x1aa9c)
+    #1 0x00010539af50 in scanf+0x6c (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x1af50)
+    #2 0x000104bbc9a0 in vuln vuln.c:30
+    #3 0x000104bbcac4 in main vuln.c:42
     #4 0x000198035d50 in start+0x1c0c (dyld:arm64e+0x3d50)
 
-Address 0x00016aea2a94 is located in stack of thread T0 at offset 52 in frame
-    #0 0x000104f5c814 in vuln vuln.c:7
+Address 0x00016b242a74 is located in stack of thread T0 at offset 52 in frame
+    #0 0x000104bbc814 in vuln vuln.c:7
 
   This frame has 1 object(s):
     [32, 52) 'p' (line 8) <== Memory access at offset 52 overflows this variable
 HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
       (longjmp and C++ exceptions *are* supported)
-SUMMARY: AddressSanitizer: stack-buffer-overflow vuln.c:25 in vuln
+SUMMARY: AddressSanitizer: stack-buffer-overflow vuln.c:30 in vuln
 Shadow bytes around the buggy address:
-  0x00016aea2800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x00016aea2880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x00016aea2900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x00016aea2980: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x00016aea2a00: 00 00 00 00 00 00 00 00 00 00 00 00 f1 f1 f1 f1
-=>0x00016aea2a80: 00 00[04]f3 f3 f3 f3 f3 00 00 00 00 00 00 00 00
-  0x00016aea2b00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x00016aea2b80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x00016aea2c00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x00016aea2c80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x00016aea2d00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016b242780: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016b242800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016b242880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016b242900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016b242980: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x00016b242a00: 00 00 00 00 00 00 00 00 f1 f1 f1 f1 00 00[04]f3
+  0x00016b242a80: f3 f3 f3 f3 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016b242b00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016b242b80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016b242c00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016b242c80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 Shadow byte legend (one shadow byte represents 8 application bytes):
   Addressable:           00
   Partially addressable: 01 02 03 04 05 06 07 
@@ -46,10 +51,4 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
   ASan internal:           fe
   Left alloca redzone:     ca
   Right alloca redzone:    cb
-==27152==ABORTING
-Starting vuln
---- inside vuln() ---
-address of buff   : 0x16aea2a80
-address of target : 0x16aea2a90
-initial target    : 0x00abcd00
-Enter a string (long input will overflow buff): 
+==44390==ABORTING

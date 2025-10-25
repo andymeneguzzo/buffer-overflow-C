@@ -13,6 +13,10 @@ void vuln(void) {
         unsigned int target;
     } p;
     p.target = 0x00abcd00;
+
+    /*ensure prints are not lost in abort, so logs are printed correctly by the build_run.sh*/
+    setvbuf(stdout, NULL, _IONBF, 0);
+    setvbuf(stderr, NULL, _IONBF, 0);
     
 
     printf("--- inside vuln() ---\n");
@@ -22,6 +26,8 @@ void vuln(void) {
 
     /*UNSAFE - input with no width limit -> overflow*/
     printf("Enter a string (long input will overflow buff): ");
+    fflush(stdout); // to be sure
+
     if (scanf("%s", p.buff) != 1) {
         printf("input error\n");
         return;
